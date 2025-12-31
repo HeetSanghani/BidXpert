@@ -1,0 +1,40 @@
+<!-- pay.html -->
+<html>
+<head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+    <h2>Pay ₹{{ amount_display }} for {{ product.name }}</h2>
+    
+    <script>
+        var options = {
+            "key": "{{ key_id }}",
+            "amount": "{{ payment.amount }}",
+            "currency": "INR",
+            "name": "Your Business Name",
+            "description": "Test Transaction",
+            "order_id": "{{ payment.id }}",
+            "handler": function (response){
+                alert("Payment ID: " + response.razorpay_payment_id);
+                alert("Order ID: " + response.razorpay_order_id);
+                alert("Signature: " + response.razorpay_signature);
+                // TODO: Post this to Django for verification
+            },
+            "prefill": {
+                "name": "Customer Name",
+                "email": "email@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#528FF0"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

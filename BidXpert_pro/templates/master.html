@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - BidXpert</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'static/assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'static/assets/img/apple-tauch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .logo-img {
+  width: 50px;
+  height: 150px;
+  border-radius: 70%;
+  object-fit: cover;
+  border: none; /* Removes the border */
+}
+
+
+    .header {
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #f1c40f;
+    }
+
+    .toggle-sidebar-btn {
+      color: #d4af37 !important;
+    }
+
+    .sidebar {
+      background-color: #ffffff !important;
+    }
+
+    .sidebar .nav-link,
+    .sidebar .nav-link i,
+    .sidebar .nav-link span {
+      color: #d4af37 !important;
+    }
+
+    .sidebar .nav-link.active {
+      background-color: rgba(212, 175, 55, 0.1);
+      border-left: 3px solid #d4af37;
+    }
+
+    .sidebar .nav-link:hover {
+      color: #b8860b !important;
+      background-color: rgba(212, 175, 55, 0.05);
+    }
+
+    .header .bi,
+    a,
+    .bi,
+    .bx,
+    .ri {
+      color: #d4af37 !important;
+    }
+
+    .header .logo span {
+  color: #d4af37 !important; /* Golden color */
+}
+
+  </style>
+
+</head>
+
+<body>
+  <div class="page-container d-flex flex-column min-vh-100">
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center shadow-sm">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
+          <img src="{% static 'assets/img/logo1.png' %}" alt="" class="logo-img">
+          <span class="d-none d-lg-block">BidXpert</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+      <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-tags"></i><span>Categories</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'category' %}">
+                <i class="bi bi-circle"></i><span>Add Categories</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'categories_view' %}">
+                <i class="bi bi-circle"></i><span>Categories</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-box-seam"></i><span>Products</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'product' %}">
+                <i class="bi bi-circle"></i><span>Add Products</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'product_view' %}">
+                <i class="bi bi-circle"></i><span>Products</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+       
+
+<li class="nav-item">
+   <a class="nav-link collapsed" href="{% url 'bids' %}">
+     <i class="bi bi-currency-dollar"></i> <span>Bids</span>
+     </a> </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'users' %}">
+            <i class="bi bi-people"></i>
+            <span>Users</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'admin_messages' %}">
+            <i class="bi bi-chat-dots"></i>
+            <span>Feedbacks</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'register' %}">
+            <i class="bi bi-person-plus"></i>
+            <span>Register</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'login' %}">
+            <i class="bi bi-person-check"></i>
+            <span>Login</span>
+          </a>
+        </li>
+
+      </ul>
+    </aside><!-- End Sidebar -->
+
+    <main class="flex-grow-1">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+  </div><!-- End of page-container -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer" style="background-color: white; border-top: 1px solid #d4af37;">
+    <div class="copyright" style="color: #d4af37;">
+      &copy; Copyright <strong><span style="color: #d4af37;">BidXpert</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits" style="color: #d4af37;">
+      Designed by <a href="https://www.instagram.com/_heet_patel_3108//"
+        style="color: #d4af37; text-decoration: underline;">Heet Sanghani</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.umd.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

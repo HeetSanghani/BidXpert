@@ -1,0 +1,49 @@
+{% extends 'master1.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Browse Categories Section -->
+<div class="container mx-auto px-6 py-8">
+    <h2 class="text-3xl font-bold text-yellow-500 mb-8 text-center" data-aos="fade-up">
+        Browse Categories
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for cat in categories %}
+        <div 
+          class="bg-yellow-500 rounded-lg shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-300 transform hover:scale-105"
+          data-aos="zoom-in"
+          data-aos-delay="{{ forloop.counter0|add:1 }}00"
+        >
+            <a href="{% url 'category_products' cat.id %}" class="block">
+                {% if cat.image %}
+                <img src="{{ cat.image.url }}" alt="{{ cat.category }}" class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110">
+                {% else %}
+                <img src="{% static 'default-category.jpg' %}" alt="No Image" class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110">
+                {% endif %}
+                <div class="p-6">
+                    <h5 class="text-xl font-bold text-black mb-4 text-center">{{ cat.category }}</h5>
+                    <div class="text-center">
+                        <a href="{% url 'category_products' cat.id %}" class="inline-block px-6 py-2 text-white bg-black hover:bg-black rounded-lg transition-colors duration-300">
+                            View Products
+                        </a>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-center text-white col-span-full">No categories available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- AOS Animation Scripts -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+{% endblock %}

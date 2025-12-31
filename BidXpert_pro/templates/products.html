@@ -1,0 +1,263 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Page Title and Breadcrumb */
+  .pagetitle h1,
+  .breadcrumb-item a,
+  .breadcrumb .active {
+    color: #d4af37 !important;
+  }
+
+  .breadcrumb-item+.breadcrumb-item::before {
+    color: #d4af37;
+  }
+
+  /* Card Styling */
+  .card {
+    background-color: #fff;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    padding: 30px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin-bottom: 20px;
+  }
+
+  /* Form Styling */
+  .form-control {
+    background-color: #fff;
+    border: 1px solid #d4af37;
+    color: #333;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+  }
+
+  /* Button Styling */
+  .btn-dark,
+  .btn-info,
+  .btn-success {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-dark:hover,
+  .btn-info:hover,
+  .btn-success:hover {
+    background-color: #c49b2d; /* Darker gold on hover */
+    border-color: #c49b2d;
+  }
+
+  .btn-danger {
+    background-color: #f44336;
+    border-color: #f44336;
+  }
+
+  /* Alerts */
+  .alert {
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+  /* Dynamic Input Fields Section */
+  #inputContainer {
+    border: 1px solid #d4af37;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background-color: #f9f6f1;
+  }
+
+  .form-select {
+    border: 1px solid #d4af37;
+    background-color: #fff;
+    color: #333;
+  }
+
+  .form-select:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+  }
+
+</style>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Products</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Forms</li>
+                <li class="breadcrumb-item active">Add Product</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-message">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Errors:</strong>
+                                <ul>
+                                    {% for field, errors in form.errors.items %}
+                                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <h5 class="card-title">Add Product</h5>
+
+                        <a href="{% url 'product_view' %}">
+                            <button type="button" class="btn btn-dark">View Products</button>
+                        </a>
+
+                        <!-- General Form Elements -->
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Product Images</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="image" class="form-control" multiple>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Category</label>
+                                <div class="col-sm-10">
+                                    <select name="category" class="form-select" required>
+                                        <option value="">-- Select Category --</option>
+                                        {% for cat in cate %}
+                                            <option value="{{ cat.id }}">{{ cat.category }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Product</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="product" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Textarea for manual input -->
+                            <div class="mb-3">
+                                <label class="form-label">Other Information</label>
+                                <textarea class="form-control" name="other_information" id="otherInfoTextarea" rows="3"></textarea>
+                            </div>
+
+                            <!-- Dynamic Input Fields Section -->
+                            <div id="inputContainer" class="border p-3 rounded"></div>
+
+                            <!-- Buttons to insert input fields -->
+                            <div class="mb-3">
+    <button type="button" class="btn btn-info" onclick="addInput('date')">Date</button>
+    <button type="button" class="btn btn-info" onclick="addInput('time')">Time</button>
+    <button type="button" class="btn btn-info" onclick="addInput('amount')">Amount</button>
+    <button type="button" class="btn btn-info" onclick="addInput('starting_price')">Starting Price</button>
+    <button type="button" class="btn btn-info" onclick="addInput('end_date')">End Date</button>
+</div>
+
+
+                            <div>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+
+                        </form><!-- End General Form Elements -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<script>
+    function addInput(type) {
+        let container = document.getElementById("inputContainer");
+
+        // Check if the input already exists
+        if (document.getElementById(type)) {
+            alert(type + " input already exists!");
+            return;
+        }
+
+        let input = document.createElement("input");
+        let removeBtn = document.createElement("button");
+        let wrapper = document.createElement("div");
+
+        // Set Bootstrap styling
+        wrapper.className = "d-flex align-items-center gap-2 mb-2";
+
+        // Set input attributes based on type
+        if (type === "date") {
+            input.type = "date";
+            input.placeholder = "Select Date";
+        } else if (type === "time") {
+            input.type = "time";
+            input.placeholder = "Select Time";
+        } else if (type === "amount" || type === "starting_price") {
+            input.type = "number";
+            input.placeholder = type === "amount" ? "Enter Amount" : "Enter Starting Price";
+        } else if (type === "end_date") {
+            input.type = "datetime-local";
+            input.placeholder = "Select End Date";
+        }
+
+        input.className = "form-control w-50";
+        input.name = type;  // Important for form submission
+        input.id = type;    // Unique ID for duplicate checking
+
+        // Create remove button
+        removeBtn.innerHTML = "✖";
+        removeBtn.className = "btn btn-danger btn-sm";
+        removeBtn.onclick = function () {
+            container.removeChild(wrapper);
+        };
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(removeBtn);
+        container.appendChild(wrapper);
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<main class="min-h-screen bg-black text-white flex items-center justify-center py-12 px-4">
+  <section class="bg-[#1a1a1a] border border-yellow-400 rounded-2xl shadow-2xl w-full max-w-2xl p-8 md:p-12 animate-pulse-glow">
+    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">My Profile</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="text-green-400 text-center font-semibold mb-4">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <div class="flex justify-center">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}" alt="Profile Picture" class="w-28 h-28 rounded-full border-4 border-yellow-400 object-cover">
+        {% else %}
+          <img src="{% static 'img/user.jpg' %}" alt="Default Profile Picture" class="w-28 h-28 rounded-full border-4 border-yellow-400 object-cover">
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="username" class="block text-yellow-400 font-semibold mb-2">Username</label>
+        <input type="text" id="username" name="username" value="{{ user.username }}" required
+               class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      </div>
+
+      <div>
+        <label for="email" class="block text-yellow-400 font-semibold mb-2">Email</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}"
+               class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      </div>
+
+      <div>
+        <label for="contact_number" class="block text-yellow-400 font-semibold mb-2">Contact Number</label>
+        <input type="text" id="contact_number" name="contact_number" value="{{ user.contact_number }}"
+               class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      </div>
+
+      <div>
+        <label for="address" class="block text-yellow-400 font-semibold mb-2">Address</label>
+        <textarea id="address" name="address" rows="3"
+                  class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">{{ user.address }}</textarea>
+      </div>
+
+      <div>
+        <label for="aadhar_number" class="block text-yellow-400 font-semibold mb-2">Aadhar Number</label>
+        <input type="text" id="aadhar_number" name="aadhar_number" value="{{ user.aadhar_number }}"
+               class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      </div>
+
+      <div>
+        <label for="profile_image" class="block text-yellow-400 font-semibold mb-2">Update Profile Image</label>
+        <input type="file" id="profile_image" name="profile_image" accept="image/*"
+               class="w-full px-4 py-2 rounded-md bg-[#2a2a2a] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 bg-yellow-400 text-black font-bold rounded-md hover:bg-yellow-500 transition duration-300">Update Profile</button>
+
+      <a href="{% url 'index' %}"
+         class="block text-center mt-4 py-3 bg-yellow-400 text-black font-bold rounded-md hover:bg-yellow-500 transition duration-300">Go to Home Page</a>
+    </form>
+  </section>
+</main>
+
+<style>
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2),
+                0 0 30px rgba(255, 215, 0, 0.3),
+                0 0 40px rgba(255, 215, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5),
+                0 0 50px rgba(255, 215, 0, 0.6),
+                0 0 60px rgba(255, 215, 0, 0.5);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite alternate;
+}
+</style>
+{% endblock %}

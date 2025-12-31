@@ -1,0 +1,182 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Overall page styling */
+  .pagetitle h1,
+  .breadcrumb a,
+  .breadcrumb .active,
+  .card-title,
+  label {
+    color: #d4af37 !important;
+  }
+
+  .breadcrumb-item+.breadcrumb-item::before {
+    color: #d4af37;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+    color: #fff !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #c49b2d !important;
+    border-color: #c49b2d !important;
+  }
+
+  .btn-dark {
+    background-color: #000;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-dark:hover {
+    background-color: #111;
+    color: #fff;
+  }
+
+  /* Card styling */
+  .card {
+    background-color: #fff;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    padding: 30px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin-bottom: 20px;
+  }
+
+  /* Form input styling */
+  .form-control {
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #c49b2d;
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.6);
+  }
+
+  /* Alert box styling */
+  .alert-success,
+  .alert-danger,
+  .alert-info {
+    color: #000;
+    background-color: #f9f6f1;
+    border-left: 5px solid #d4af37;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .alert-dismissible {
+    transform: translateY(10px);
+  }
+
+  .alert-dismissible.fade.show {
+    transform: translateY(0);
+  }
+
+  .alert-dismissible .btn-close {
+    color: #d4af37;
+  }
+
+  /* Hover effects on buttons */
+  .btn:hover {
+    cursor: pointer;
+  }
+
+  /* Miscellaneous styling */
+  .breadcrumb-item.active {
+    color: #d4af37 !important;
+  }
+
+</style>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Categories</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item active">Categories</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-8">
+
+        <div class="card">
+          <div class="card-body">
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}danger{% else %}info{% endif %} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <h5 class="card-title">Add Category</h5>
+            <a href="{% url 'categories_view' %}">
+              <button type="button" name="add_product" class="btn btn-dark">View Categories</button>
+            </a>
+
+            
+
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <br>
+              
+              <div class="row mb-3">
+                <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+                <div class="col-sm-10">
+                  <input type="text" name="category" class="form-control" required>
+                </div>
+              </div>
+            
+              <div class="row mb-3">
+                <label for="inputImage" class="col-sm-2 col-form-label">Category Image</label>
+                <div class="col-sm-10">
+                  <input type="file" name="image" class="form-control" required>
+                </div>
+              </div>
+            
+              <div>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

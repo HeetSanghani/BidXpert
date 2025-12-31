@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #bfa300;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(191, 163, 0, 0.2);
+        }
+
+        table, th, td {
+            border: 1px solid #d4af37;
+        }
+
+        th {
+            background-color: #fff8dc;
+            color: #bfa300;
+            padding: 12px 15px;
+        }
+
+        td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        td img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #bfa300;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        td img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(191, 163, 0, 0.5);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #fff4cc;
+        }
+
+        td:nth-child(2), th:nth-child(2) {
+            width: 80px;
+            text-align: center;
+        }
+
+        td, th {
+            word-wrap: break-word;
+        }
+
+        .back-btn {
+            background-color: #bfa300;
+            color: white;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #a89000;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Registered Users</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Profile Image</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Aadhar Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="Profile Image">
+                    {% else %}
+                        <span>No Image</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.contact_number }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.aadhar_number }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/" class="back-btn">Back to Home</a>
+
+</body>
+</html>

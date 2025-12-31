@@ -1,0 +1,125 @@
+{% extends 'master.html' %}
+{% block content %}
+
+<style>
+  .card {
+    background-color: #fff;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  .card-body {
+    padding: 30px;
+  }
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d4af37;
+  }
+  .btn-dark {
+    background-color: #000;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+  }
+  .btn-dark:hover {
+    background-color: #222;
+    color: #fff;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 12px;
+    text-align: center;
+  }
+  th {
+    background-color: #d4af37;
+    color: white;
+    font-weight: bold;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f6f1;
+  }
+</style>
+
+<main id="main" class="main">
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+            <!-- Header: Title on Left, Search Bar on Right -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 class="card-title m-0">Bidding Overview</h5>
+              <form method="get" action="{% url 'bids' %}" class="d-flex" style="max-width: 400px;">
+                <input type="text" name="search" placeholder="Search for a product..." class="form-control me-2" value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-dark">Search</button>
+              </form>
+            </div>
+
+            {% if products_with_bids %}
+              {% for product_data in products_with_bids %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ product_data.product.product }}</h5>
+                    <p><strong>Category:</strong> {{ product_data.product.category.category }}</p>
+                    <p><strong>Starting Price:</strong> ₹{{ product_data.product.starting_price }}</p>
+                    <p><strong>Current Price:</strong> ₹{{ product_data.product.current_price }}</p>
+
+                    {% if product_data.product.end_date and product_data.product.end_date < now %}
+                      <div class="alert alert-success mt-3">
+                        <strong>Auction Closed!</strong><br>
+                        {% if product_data.highest_bid %}
+                          Winner: <span class="text-success fw-bold">{{ product_data.highest_bid.user.username }}</span><br>
+                          Winning Bid: <span class="text-success fw-bold">₹{{ product_data.highest_bid.amount }}</span>
+                        {% else %}
+                          No bids were placed for this product.
+                        {% endif %}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-warning mt-3">
+                        <strong>Auction Ongoing</strong>
+                      </div>
+                    {% endif %}
+
+                    <h6 class="mt-4">Bids:</h6>
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Bidder</th>
+                          <th>Amount</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for bid in product_data.bids %}
+                          <tr>
+                            <td>{{ bid.user.username }}</td>
+                            <td>₹{{ bid.amount }}</td>
+                            <td>{{ bid.timestamp|date:"d M Y, H:i" }}</td>
+                          </tr>
+                        {% empty %}
+                          <tr>
+                            <td colspan="3" class="text-center">No bids yet</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p>No products found matching your search.</p>
+            {% endif %}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

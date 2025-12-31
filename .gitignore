@@ -1,0 +1,64 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*.log
+
+# ==========================
+# Virtual Environments
+# ==========================
+venv/
+.venv/
+env/
+ENV/
+
+# ==========================
+# Environment variables
+# ==========================
+.env
+.env.*
+.env.local
+
+# ==========================
+# Django
+# ==========================
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+*.mo
+
+# ==========================
+# Docker
+# ==========================
+docker-data/
+*.tar
+
+# ==========================
+# Build / Packaging
+# ==========================
+build/
+dist/
+*.egg-info/
+
+# ==========================
+# IDEs / OS
+# ==========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Tests / Coverage
+# ==========================
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# ==========================
+# Node (if ever added)
+# ==========================
+node_modules/

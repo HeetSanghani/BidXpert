@@ -1,0 +1,65 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% block content %}
+
+<main class="container mx-auto px-4 py-10">
+  <section class="bg-gray-950 p-8 rounded-2xl shadow-xl border border-gray-800">
+    <h1 class="text-3xl font-bold text-yellow-400 mb-6">Your Bids</h1>
+
+    {% if bids %}
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left text-gray-300">
+       <thead class="bg-gray-800 text-yellow-300 uppercase tracking-wider">
+  <tr>
+    <th class="px-6 py-3">Product</th>
+    <th class="px-6 py-3">Bid Amount</th>
+    <th class="px-6 py-3">Date</th>
+    <th class="px-6 py-3">Time</th>
+    <th class="px-6 py-3">Status</th>  <!-- NEW -->
+    <th class="px-6 py-3">Action</th>
+  </tr>
+</thead>
+
+        <tbody>
+          {% for bid in bids %}
+          <tr class="bg-gray-900 border-b border-gray-800 hover:bg-gray-800 transition">
+            <td class="px-6 py-4 font-medium">{{ bid.product.product }}</td>
+            <td class="px-6 py-4 text-green-400 font-semibold">₹{{ bid.amount }}</td>
+            <td class="px-6 py-4">{{ bid.timestamp|date:"d M Y" }}</td>
+            <td class="px-6 py-4">{{ bid.timestamp|date:"H:i:s" }}</td>
+            <td class="px-6 py-4">
+  {% if bid.status == "Winner" %}
+    <span class="text-green-400 font-semibold">🏆 Winner</span>
+  {% elif bid.status == "Lost" %}
+    <span class="text-red-400 font-semibold">❌ Lost</span>
+  {% elif bid.status == "Ended" %}
+    <span class="text-gray-400 font-semibold">⏳ Ended</span>
+  {% else %}
+    <span class="text-yellow-400 font-semibold">⏳ Pending</span>
+  {% endif %}
+</td>
+            <td class="px-6 py-4">
+              <a href="{% url 'bid_view' bid.product.id %}" class="inline-flex items-center bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-2 rounded-lg shadow-md transition">
+                View
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="text-center mt-10">
+      <p class="text-lg text-cyan-400 font-medium">You haven't placed any bids yet.</p>
+      <a href="{% url 'product_list' %}" class="mt-4 inline-block text-yellow-500 hover:text-yellow-400 text-sm underline">Browse Products →</a>
+    </div>
+    {% endif %}
+  </section>
+</main>
+
+{% endblock %}

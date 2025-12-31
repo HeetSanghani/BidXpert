@@ -1,0 +1,202 @@
+[
+{
+  "model": "BidXpert_app.categories",
+  "pk": 2,
+  "fields": {
+    "category": "Animals",
+    "image": "category_images/gZQqpBa5Su2LHJ8B59noOA_janZIGR.webp"
+  }
+},
+{
+  "model": "BidXpert_app.categories",
+  "pk": 3,
+  "fields": {
+    "category": "Lands",
+    "image": "category_images/hnEjI5CUQ_G_mUSpCmISOg_XO99cre.webp"
+  }
+},
+{
+  "model": "BidXpert_app.categories",
+  "pk": 4,
+  "fields": {
+    "category": "Phones",
+    "image": "category_images/sam_B2HYRq2.png"
+  }
+},
+{
+  "model": "BidXpert_app.categories",
+  "pk": 5,
+  "fields": {
+    "category": "Pets",
+    "image": "category_images/UKVSck4lR2G7D8FdMq7gwA_sOfpUuZ.webp"
+  }
+},
+{
+  "model": "BidXpert_app.product",
+  "pk": 1,
+  "fields": {
+    "product": "Lion",
+    "category": 2,
+    "other_information": "Lions are powerful, muscular big cats known as the \"king of beasts,\" characterized by tawny fur, large heads, and, uniquely, a prominent mane on males that signals health and strength.",
+    "date": "2026-01-17",
+    "time": "12:08:00",
+    "end_date": "2026-01-24T06:38:00Z",
+    "amount": "1200000.00",
+    "starting_price": "2200000.00",
+    "current_price": null,
+    "extra_fields": {
+      "date": "2026-01-17",
+      "time": "12:08",
+      "amount": "1200000",
+      "starting_price": "2200000",
+      "end_date": "2026-01-24T12:08"
+    },
+    "is_sold": false,
+    "winner": null
+  }
+},
+{
+  "model": "BidXpert_app.product",
+  "pk": 2,
+  "fields": {
+    "product": "Iland",
+    "category": 3,
+    "other_information": "iLands primarily refers to a nostalgic 3D block-building sandbox game where players create personalized islands.",
+    "date": "2026-01-01",
+    "time": "14:12:00",
+    "end_date": "2026-01-13T19:41:00Z",
+    "amount": "500000.00",
+    "starting_price": "700000.00",
+    "current_price": null,
+    "extra_fields": {
+      "date": "2026-01-01",
+      "time": "14:12",
+      "amount": "500000",
+      "starting_price": "700000",
+      "end_date": "2026-01-14T01:11"
+    },
+    "is_sold": false,
+    "winner": null
+  }
+},
+{
+  "model": "BidXpert_app.product",
+  "pk": 3,
+  "fields": {
+    "product": "Dog",
+    "category": 5,
+    "other_information": "A dog is a domesticated mammal, a subspecies of the gray wolf, known for being loyal companions with diverse physical traits (size, shape, color) and behaviors, possessing keen senses (smell, hearing), communicating through barks and body language, and serving humans in many roles from work to family pets, thriving on care and affection.",
+    "date": "2025-12-31",
+    "time": "16:15:00",
+    "end_date": "2026-02-06T12:48:00Z",
+    "amount": "7000.00",
+    "starting_price": "12000.00",
+    "current_price": null,
+    "extra_fields": {
+      "date": "2025-12-31",
+      "time": "16:15",
+      "amount": "7000",
+      "starting_price": "12000",
+      "end_date": "2026-02-06T18:18"
+    },
+    "is_sold": false,
+    "winner": null
+  }
+},
+{
+  "model": "BidXpert_app.product",
+  "pk": 4,
+  "fields": {
+    "product": "Samsung S20fe 5G",
+    "category": 4,
+    "other_information": "The Samsung Galaxy S20 FE (Fan Edition) is a flagship-level smartphone known for offering premium features like a 120Hz Super AMOLED display, a versatile pro-grade camera system with 3x optical zoom, and a powerful processor, all at a more accessible price point.",
+    "date": "2026-01-02",
+    "time": "23:11:00",
+    "end_date": "2026-02-11T07:31:00Z",
+    "amount": "26000.00",
+    "starting_price": "32000.00",
+    "current_price": null,
+    "extra_fields": {
+      "date": "2026-01-02",
+      "time": "23:11",
+      "amount": "26000",
+      "starting_price": "32000",
+      "end_date": "2026-02-11T13:01"
+    },
+    "is_sold": false,
+    "winner": null
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "image": "product_images/istockphoto-1796374503-612x612_VmpasIN_2IhiRvj.webp"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "image": "product_images/wallpaper_3_YjjS1T7_J7xnzRS.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 2,
+    "image": "product_images/12_ksJZRT9.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 2,
+    "image": "product_images/istockphoto-117144618-612x612_iwnp9K4.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 5,
+  "fields": {
+    "product": 2,
+    "image": "product_images/istockphoto-1082411378-612x612_ulKqUde.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 6,
+  "fields": {
+    "product": 3,
+    "image": "product_images/dog_FUZSC3E.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 7,
+  "fields": {
+    "product": 4,
+    "image": "product_images/sam1_awKP4lb.jpg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 8,
+  "fields": {
+    "product": 4,
+    "image": "product_images/sam2_QDOWPJx.jpeg"
+  }
+},
+{
+  "model": "BidXpert_app.productimage",
+  "pk": 9,
+  "fields": {
+    "product": 4,
+    "image": "product_images/sam3_DyihiN6.jpeg"
+  }
+}
+]

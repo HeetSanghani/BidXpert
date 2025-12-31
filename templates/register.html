@@ -1,0 +1,82 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<main class="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 bg-gray-800 rounded-2xl shadow-lg p-10 border border-yellow-500">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-yellow-400">Create your account</h2>
+      <p class="mt-2 text-sm text-gray-400">Please fill in the information below</p>
+    </div>
+
+    <form class="mt-8 space-y-6" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-yellow-300">Username</label>
+          <input id="username" name="username" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter username">
+        </div>
+
+        <div class="mb-4 relative">
+          <label for="password" class="block text-sm font-medium text-yellow-300">Password</label>
+          <input id="password" name="password" type="password" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter password">
+          <img src="{% static 'img/icon/view.png' %}" class="absolute top-9 right-3 w-5 cursor-pointer" onclick="togglePassword('password', this)" alt="Toggle Password">
+        </div>
+
+        <div class="mb-4 relative">
+          <label for="confirm_password" class="block text-sm font-medium text-yellow-300">Confirm Password</label>
+          <input id="confirm_password" name="password1" type="password" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Confirm password">
+          <img src="{% static 'img/icon/view.png' %}" class="absolute top-9 right-3 w-5 cursor-pointer" onclick="togglePassword('confirm_password', this)" alt="Toggle Password">
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-yellow-300">Email</label>
+          <input id="email" name="email" type="email" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter your email">
+        </div>
+
+        <div class="mb-4">
+          <label for="contact_number" class="block text-sm font-medium text-yellow-300">Contact Number</label>
+          <input id="contact_number" name="contact_number" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter contact number">
+        </div>
+
+        <div class="mb-4">
+          <label for="profile_image" class="block text-sm font-medium text-yellow-300">Profile Image</label>
+          <input id="profile_image" name="profile_image" type="file" accept="image/*" class="block w-full text-sm text-gray-300 bg-gray-700 border border-gray-600 rounded-md cursor-pointer focus:outline-none">
+        </div>
+
+        <div class="mb-4">
+          <label for="address" class="block text-sm font-medium text-yellow-300">Address</label>
+          <textarea id="address" name="address" required class="rounded-md block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter your address"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="aadhar_number" class="block text-sm font-medium text-yellow-300">Aadhar Number</label>
+          <input id="aadhar_number" name="aadhar_number" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Enter Aadhar number">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+          Register
+        </button>
+      </div>
+
+      <div class="text-center mt-4">
+        <p class="text-gray-400">Already have an account? <a href="{% url 'login' %}" class="font-medium text-yellow-400 hover:text-yellow-500">Login here</a></p>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>
+  function togglePassword(id, icon) {
+    const field = document.getElementById(id);
+    const isHidden = field.type === "password";
+    field.type = isHidden ? "text" : "password";
+    icon.src = isHidden ? "{% static 'img/icon/hide.png' %}" : "{% static 'img/icon/view.png' %}";
+  }
+</script>
+
+{% endblock %}

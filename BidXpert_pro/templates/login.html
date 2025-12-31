@@ -1,0 +1,65 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<main class="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 bg-gray-800 rounded-2xl shadow-lg p-10 border border-yellow-500">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-yellow-400">Login to your account</h2>
+      <p class="mt-2 text-sm text-gray-400">Please enter your username and password</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="text-sm text-center text-red-400">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="mt-8 space-y-6">
+      {% csrf_token %}
+
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-yellow-300">Username</label>
+          <input type="text" name="username" id="username" required
+                 class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                 placeholder="Enter username">
+        </div>
+
+        <div class="mb-4 relative">
+          <label for="password" class="block text-sm font-medium text-yellow-300">Password</label>
+          <input type="password" name="password" id="password" required
+                 class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                 placeholder="Enter password">
+          <img src="{% static 'img/icon/view.png' %}" class="absolute top-9 right-3 w-5 cursor-pointer"
+               onclick="togglePassword('password', this)" alt="Toggle Password">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit"
+                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+          Login
+        </button>
+      </div>
+
+      <div class="text-center mt-4">
+        <p class="text-gray-400">Register as:
+          <a href="{% url 'register' %}" class="font-medium text-yellow-400 hover:text-yellow-500">User</a>
+          {% comment %} <a href="{% url 'register_admin' %}" class="font-medium text-yellow-400 hover:text-yellow-500">Admin</a> {% endcomment %}
+        </p>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>
+  function togglePassword(id, icon) {
+    const field = document.getElementById(id);
+    const isHidden = field.type === "password";
+    field.type = isHidden ? "text" : "password";
+    icon.src = isHidden ? "{% static 'img/icon/hide.png' %}" : "{% static 'img/icon/view.png' %}";
+  }
+</script>
+{% endblock %}

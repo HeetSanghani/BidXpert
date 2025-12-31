@@ -1,0 +1,179 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Page Title and Breadcrumb */
+  .pagetitle h1,
+  .breadcrumb-item a,
+  .breadcrumb .active {
+    color: #d4af37 !important;
+  }
+
+  .breadcrumb-item+.breadcrumb-item::before {
+    color: #d4af37;
+  }
+
+  /* Card Styling */
+  .card {
+    background-color: #fff;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    padding: 30px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin-bottom: 20px;
+  }
+
+  /* Button Styling */
+  .btn-dark {
+    background-color: #000;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-dark:hover {
+    background-color: #111;
+    color: #fff;
+  }
+
+  /* Update Button - Golden Style */
+  .btn-update {
+    background-color: black; /* Golden color */
+    border-color:black;
+    color:gold;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-update:hover {
+    background-color: black; /* Darker gold on hover */
+    border-color: black;
+  }
+
+  /* Delete Button */
+  .btn-delete {
+    background-color: #870714; /* Red color */
+    border-color: #870714;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-delete:hover {
+    background-color:  #870714;
+    border-color:  #870714;
+  }
+
+  /* Table Styling */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th,
+  .table td {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .table th {
+    background-color: #f9f6f1;
+    color: #d4af37;
+    border-top: 1px solid #d4af37;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f7f7f7;
+  }
+
+  .table img {
+    border-radius: 5px;
+  }
+
+  /* Image styles */
+  .table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+</style>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Categories</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active">Category Products</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-10">
+
+        <div class="card">
+          <div class="card-body">
+
+            <h5 class="card-title text-center">Categories Table</h5>
+
+            <a href="{% url 'category' %}" class="btn btn-dark mb-4">Add Category</a>
+
+            <!-- Default Table -->
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Category Image</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for cd in data %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ cd.category }}</td>
+                  <td>
+                    {% if cd.image %}
+                    <img src="{{ cd.image.url }}" alt="{{ cd.category }}">
+                    {% else %}
+                    <span>No Image</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <a href="{% url 'categoriesupdate' cd.id %}" class="btn btn-update">Update</a>
+                    <a href="{% url 'categoriesdelete' cd.id %}" class="btn btn-delete">Delete</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% block content %}
+
+<main class="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <section class="max-w-md w-full space-y-8 bg-gray-800 rounded-2xl shadow-lg p-10 border border-yellow-500">
+    <h1 class="text-3xl font-bold text-yellow-400 text-center mb-6">Contact Us</h1>
+    <p class="text-sm text-gray-400 text-center mb-6">
+      We'd love to hear from you! Whether you have a question about our services, pricing, or anything else, our team is ready to answer all your questions.
+    </p>
+
+    {% if success %}
+    <div class="bg-green-500 text-white font-semibold px-6 py-4 rounded-lg shadow-xl mb-6 border-l-4 border-green-700">
+      <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M9 3a1 1 0 011 1v6h5a1 1 0 110 2H10v6a1 1 0 01-2 0v-6H3a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        <span>Your message has been successfully sent! We’ll get back to you shortly.</span>
+      </div>
+    </div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-yellow-300">Name</label>
+        <input id="name" name="name" type="text" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Your Name">
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-yellow-300">Email</label>
+        <input id="email" name="email" type="email" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Your Email">
+      </div>
+
+      <div class="mb-4">
+        <label for="message" class="block text-sm font-medium text-yellow-300">Message</label>
+        <textarea id="message" name="message" rows="5" required class="appearance-none rounded-md relative block w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500" placeholder="Your Message"></textarea>
+      </div>
+
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-black bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+          Send Message
+        </button>
+      </div>
+    </form>
+  </section>
+</main>
+
+{% endblock %}

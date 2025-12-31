@@ -1,0 +1,231 @@
+{% extends 'master1.html' %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+
+{% block content %}
+<main id="main" class="main">
+  <div class="container py-5">
+    <div class="row align-items-center">
+
+      {% if user.is_authenticated %}
+        <!-- Product Images -->
+        <div class="col-md-6 p-0">
+          {% if pd.images.all %}
+          <div id="productCarousel{{ pd.id }}" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for image in pd.images.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image.image.url }}" class="d-block w-100"
+                  style="height: 500px; object-fit: cover; border-radius: 6px;">
+              </div>
+              {% endfor %}
+            </div>
+            {% if pd.images.all|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{ pd.id }}"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{ pd.id }}"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+          </div>
+          {% else %}
+          <div class="no-image">No Image</div>
+          {% endif %}
+        </div>
+
+        <!-- Product Info and Bidding -->
+        <div class="col-md-6 pt-3">
+          <div class="card border-0 rounded-0 bg-transparent">
+            <div class="card-body">
+              <p class="Lucida Console" style="font-size: 16px; color:rgb(0, 242, 255);">
+                Category: <span>{{ pd.category }}</span>
+              </p>
+              <br>
+              <h1 class="fw-bold" style="color:#FFD700">{{ pd.product }}</h1>
+              <br>
+              <p style="color:#F0EDE5;">Other Info: {{ pd.other_information|default:"N/A" }}</p>
+              <p class="small blink" style="color: rgb(0, 242, 255);">
+                Auction Date: {{ pd.date|default:"N/A" }} at {{ pd.time|default:"N/A" }}
+              </p>
+              <p class="small blink" style="color: rgb(0, 242, 255);">
+                Auction End Date: {{ pd.end_date|date:'Y-m-d' }} at {{ pd.end_date|date:'H:i a' }}
+              </p>
+
+              <div class="d-flex gap-3 justify-content-center my-3">
+                <div class="p-3 bg-dark text-white rounded">
+                  <strong>Starting Price</strong><br>
+                  <span style="color: rgb(0, 242, 255);">
+                    ₹{{ pd.starting_price|indian_number_format }}
+                  </span>
+                </div>
+                <div class="p-3 bg-dark text-white rounded">
+                  <strong>Current Price</strong><br>
+                  <span id="bidPrice" style="color: rgb(0, 242, 255);">
+                    {% if pd.current_price %}
+                      ₹{{ pd.current_price|indian_number_format }}
+                    {% else %}
+                      ₹{{ pd.starting_price|indian_number_format }}
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+
+             {% if pd.is_sold and pd.winner %}
+  {% if request.user == pd.winner.user %}
+    <!-- Show to winner -->
+    <div class="mt-4 p-4 rounded" style="background-color: #000; border-left: 5px solid #FFD700;">
+  <h4 style="color: #FFD700;">🎉 Congratulations!</h4>
+  <p style="color: rgb(0, 242, 255); font-size: 18px;">🥇 You are the winner of this auction!</p>
+  <p style="color: #fff;"><strong>Winner:- </strong>{{highest_bid|indian_number_format }}</p>
+  <p style="color: #fff;">You can now proceed with the payment to complete your purchase.</p>
+  <button id="rzp-button1" style="color:black; background-color: #FFD700; border-color:black"  class="btn btn-primary">Pay Now</button>
+</div>
+
+  {% else %}
+    <!-- Show generic sold message -->
+    <div class="mt-4 p-4 rounded" style="background-color: #000; border-left: 5px solid #FFD700;">
+      <h5 style="color: #FFD700;">🏁 This product is <strong>Sold Out!</strong></h5>
+      <p style="color: rgb(0, 242, 255); font-size: 18px;">
+        🥇 Winner: <strong>{{ pd.winner.user.username }}</strong>
+      </p>
+    </div>
+  {% endif %}
+
+
+              {% else %}
+                <!-- Bid Form -->
+                <form id="bidForm">
+                  {% csrf_token %}
+                  <input type="number" id="bidAmount" class="form-control" placeholder="Enter Your Bid" min="1" step="1" required>
+                  <p id="errorMessage" class="text-danger mt-2" style="display: none;"></p>
+                  <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-warning fw-bold">Submit Bid</button>
+                  </div>
+                </form>
+              {% endif %}
+
+              <!-- Hide Previous Bids if Sold -->
+              {% if not pd.is_sold %}
+                <!-- Previous Bids -->
+                {% if bids %}
+                <div class="mt-5">
+                  <h4 class="text-warning">Previous Bids</h4>
+                  <table class="table table-bordered table-dark table-hover mt-3">
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Bid Amount</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for bid in bids %}
+                        {% if not bid.is_deleted %}
+                        <tr class="{% if bid == highest_bid %}bg-success text-white{% endif %}">
+                          <td>{{ bid.user.username }}</td>
+                          <td>₹{{ bid.amount }}</td>
+                          <td>{{ bid.timestamp|date:"d-M-Y" }}</td>
+                          <td>{{ bid.timestamp|date:"H:i:s" }}</td>
+                        </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                {% else %}
+                <p class="mt-4" style="color: rgb(0, 242, 255);">No bids have been placed yet.</p>
+                {% endif %}
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+
+      {% else %}
+        <!-- Login Prompt -->
+        <div class="col-12 text-center">
+          <div style="background-color: white; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto;">
+            <h4 style="color: #111;">Login Required</h4>
+            <p class="mb-4 text-sm text-gray-700">You must be logged in to view and place a bid.</p>
+            <div class="flex justify-center gap-2">
+              <a href="{% url 'login' %}" class="btn bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</a>
+              <a href="{% url 'register' %}" class="btn bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Register</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</main>
+
+<!-- ✅ JavaScript for AJAX Bid Submission -->
+<script>
+  const bidForm = document.getElementById('bidForm');
+  if (bidForm) {
+    bidForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const bidAmount = parseFloat(document.getElementById('bidAmount').value);
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const errorMessage = document.getElementById('errorMessage');
+
+      fetch(`/bid/{{ pd.id }}/ajax/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ bid_amount: bidAmount })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('bidPrice').textContent = `₹${data.new_price.toLocaleString('en-IN')}`;
+          errorMessage.style.display = 'none';
+          location.reload(); // Refresh page to show new bid in list
+        } else {
+          errorMessage.textContent = data.error || 'Something went wrong.';
+          errorMessage.style.display = 'block';
+        }
+      })
+      .catch(err => {
+        errorMessage.textContent = 'Error submitting bid.';
+        errorMessage.style.display = 'block';
+        console.error(err);
+      });
+    });
+  }
+</script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+        var options = {
+            "key": "{{ api_key }}",
+            "amount": "{{ amount }}",
+            "currency": "INR",
+            "name": "BidXpert",
+            "description": "Test Transaction",
+            "order_id": "{{ order_id }}",
+            "handler": function (response){
+                alert("Payment Successful! Razorpay Payment ID: " + response.razorpay_payment_id);
+                window.href.location="/dashboard/";
+            },
+            "theme": {
+                "color": "#528FF0"
+            }
+        };
+        var rzp = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp.open();
+            e.preventDefault();
+        }
+    </script>
+
+{% endblock %}
