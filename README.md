@@ -1,18 +1,28 @@
-# BidXpert 🏷️
+# BidXpert 🚀  
+A Dockerized Django-based Online Auction Platform
 
-BidXpert is a modern online bidding platform built with **Django + PostgreSQL + Docker**.
+---
 
-## 🚀 Tech Stack
+## 📌 Features
+- User authentication & authorization
+- Product auctions with bidding system
+- Category-wise product listing
+- PostgreSQL database
+- Media file handling (images)
+- Dockerized setup
+- Fixtures for initial data
+- Secure environment variable management
+
+---
+
+## 🛠️ Tech Stack
+- Python 3.12
 - Django
 - PostgreSQL
 - Docker & Docker Compose
 - Gunicorn
-- Razorpay Integration
 
-## ⚙️ Setup Instructions
+---
 
-```bash
-git clone https://github.com/HeetSanghani/BidXpert.git
-cd BidXpert
-cp .env.example .env
-docker-compose up --build
+## �� Project Structure
+

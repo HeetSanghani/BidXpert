@@ -8,6 +8,9 @@ services:
       - .env
     depends_on:
       - db
+    volumes:
+      - .:/app
+      - ./media:/app/media   # 🔥 THIS LINE FIXES EVERYTHING
 
   db:
     image: postgres:16
